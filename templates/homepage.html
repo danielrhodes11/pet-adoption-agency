@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+    HomePage 
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success mx-auto">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <h1 class="mb-4 text-center">All Pets</h1>
+
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-md-3 mb-3 mx-auto">
+            <a href="/{{ pet.id }}" style="text-decoration: none; color: inherit">
+                <div class="card">
+                    {% if pet.photo_url %}
+                        <img src="{{ pet.photo_url }}" class="card-img-top" alt="{{pet.name}}" />
+                    {% else %}
+                        <img src="{{ default_image }}" />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{pet.name}}</h5>
+                        {% if pet.available %}
+                            <span class="badge bg-success">Available</span>
+                        {% else %}
+                            <span class="badge bg-danger">Not Available</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/add" class="btn btn-success btn mt-3">Add a pet</a>
+    
+</div>
+
+{% endblock %}
+
